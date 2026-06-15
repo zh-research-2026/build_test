@@ -21,7 +21,7 @@ jobs:
              sudo apt-get install -y gcc
 
       - name: Compile program
-        run: gcc -Wall -Wextra -Werror -O2 src/hello.c -o hello
+        run: gcc -Wall -Wextra -Werror -O2 hello.c -o hello
 
       - name: Run unit test
         run: output="$(./hello)"
