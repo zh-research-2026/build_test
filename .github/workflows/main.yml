@@ -24,12 +24,13 @@ jobs:
         run: gcc -Wall -Wextra -Werror -O2 hello.c -o hello
 
       - name: Run unit test
-        run: output="$(./hello)"
-             if [ "$output" = "Hello world!" ]; then
-               echo "PASS: output is correct"
+        run: |
+             output="$(./hello)";
+             if [ "$output" -eq "Hello world!" ]; then
+               echo "PASS: output is correct";
              else
-               echo "FAIL: expected 'Hello world!' but got '$output'"
-               exit 1
+               echo "FAIL: expected 'Hello world!' but got '$output'";
+               exit 1;
              fi
 
       - name: Generate SHA256 hash
