@@ -1,0 +1,7 @@
+- name: Build
+  run: gcc -Wall -Wextra -Werror -O2 src/hello.c -o hello
+
+- name: Test
+  run: |
+    output="$(./hello)"
+    test "$output" = "Hello world!"
