@@ -25,7 +25,7 @@ jobs:
       - name: Run unit test
         run: |
              output="$(./hello)";
-             if [ "$output" -eq "Hello world!" ]; then
+             if [ "$output" = "Hello world!" ]; then
                echo "PASS: output is correct";
              else
                echo "FAIL: expected 'Hello world!' but got '$output'";
