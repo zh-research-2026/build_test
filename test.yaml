@@ -1,7 +1,42 @@
-- name: Build
-  run: gcc -Wall -Wextra -Werror -O2 src/hello.c -o hello
+name: Build and Test C Program
 
-- name: Test
-  run: |
-    output="$(./hello)"
-    test "$output" = "Hello world!"
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test:
+    name: Compile and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install GCC
+        run: sudo apt-get update && sudo apt-get install -y gcc
+
+      - name: Compile program
+        run: gcc -Wall -Wextra -Werror -O2 hello.c -o hello
+
+      - name: Run unit test
+        run: |
+             output="$(./hello)";
+             if [ "$output" = "Hello world!" ]; then
+               echo "PASS: output is correct";
+             else
+               echo "FAIL: expected 'Hello world!' but got '$output'";
+               exit 1;
+             fi
+
+      - name: Generate SHA256 hash
+        run: sha256sum hello > hello.sha256 && cat hello.sha256
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-binary
+          path: hello hello.sha256
